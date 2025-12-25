@@ -4,14 +4,9 @@ import type { SleepRecord } from "../../types/record";
 type Props = {
   activeSleep: SleepRecord | null;
   setActiveSleep: (r: SleepRecord | null) => void;
-  addSleepRecord: (r: SleepRecord) => void;
 };
 
-export default function RecordSleep({
-  activeSleep,
-  setActiveSleep,
-  addSleepRecord,
-}: Props) {
+export default function RecordSleep({ activeSleep, setActiveSleep }: Props) {
   const handleStartSleep = () => {
     const now = new Date();
     const newRecord: SleepRecord = {
@@ -28,33 +23,39 @@ export default function RecordSleep({
     if (!activeSleep) return;
 
     const endTime = new Date();
-    const duration = Math.floor(
-      endTime.getTime() - activeSleep.startTime.getTime() / 60000
+    const durationMinutes = Math.floor(
+      (endTime.getTime() - activeSleep.startTime.getTime()) / 60000
     );
 
-    const finishedRecord: SleepRecord = {
+    setActiveSleep({
       ...activeSleep,
       endTime,
-      durationMinutes: duration,
-    };
-    console.log(endTime, "endtime");
-    addSleepRecord(finishedRecord);
-    setActiveSleep(null);
+      durationMinutes,
+    });
   };
   return (
-    <div className="rounded-xl border p-4 space-y-3">
+    <div className="rounded-xl border p-4 space-y-3 mb-10">
       {activeSleep ? (
         <>
           <p className="text-sm text-text-sub">
-            Sleeping since{""}
-            {activeSleep.startTime.toLocaleString()}{" "}
+            Start time :{activeSleep.startTime.toLocaleString()}
           </p>
-          <Button onClick={handleEndSleep}>End Sleep</Button>
+
+          {!activeSleep.endTime ? (
+            <Button onClick={handleEndSleep}>End Sleep</Button>
+          ) : (
+            <>
+              <p className="text-sm">
+                End time : {activeSleep.endTime.toLocaleString()}
+              </p>
+              <p className="text-sm">
+                Duration: {activeSleep.durationMinutes} min
+              </p>
+            </>
+          )}
         </>
       ) : (
-        <>
-          <Button onClick={handleStartSleep}>Start Sleep</Button>
-        </>
+        <Button onClick={handleStartSleep}>Start Sleep</Button>
       )}
     </div>
   );

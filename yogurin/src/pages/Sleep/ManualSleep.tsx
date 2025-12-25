@@ -1,42 +1,28 @@
-import { useState } from "react";
-import type { SleepRecord } from "../../types/record";
+import { useMemo, useState } from "react";
 import Button from "../../components/common/Button";
 
 type Props = {
-  addSleepRecord: (r: SleepRecord) => void;
+  start: string;
+  end: string;
+  setStart: (v: string) => void;
+  setEnd: (v: string) => void;
 };
 
-export default function ManualSleep({ addSleepRecord }: Props) {
-  const [start, setStart] = useState("");
-  const [end, setEnd] = useState("");
+export default function ManualSleep({ start, end, setStart, setEnd }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleManualEntry = () => {
     setIsOpen((prev) => !prev);
   };
 
-  const handleSave = () => {
-    if (!start || !end) return;
+  const durationMinutes = useMemo(() => {
+    if (!start || !end) return null;
+    const s = new Date(start);
+    const e = new Date(end);
+    const diff = Math.floor((e.getTime() - s.getTime()) / 60000);
 
-    const startTime = new Date(start);
-    const endTime = new Date(end);
-
-    const durationMinutes = Math.floor(
-      (endTime.getTime() - startTime.getTime()) / 60000
-    );
-
-    const record: SleepRecord = {
-      id: crypto.randomUUID(),
-      type: "sleep",
-      createdAt: new Date(),
-      startTime,
-      endTime,
-      durationMinutes,
-    };
-    addSleepRecord(record);
-    setStart("");
-    setEnd("");
-  };
+    return diff > 0 ? diff : null;
+  }, [start, end]);
 
   return (
     <>
@@ -44,7 +30,7 @@ export default function ManualSleep({ addSleepRecord }: Props) {
         <Button onClick={handleManualEntry}>Manual Entry</Button>
 
         {isOpen && (
-          <div>
+          <>
             <input
               type="datetime-local"
               value={start}
@@ -57,11 +43,15 @@ export default function ManualSleep({ addSleepRecord }: Props) {
               onChange={(e) => setEnd(e.target.value)}
               className="w-full border rounded p-2"
             />
-          </div>
+
+            {durationMinutes !== null && (
+              <p className="text-text-sub text-sm">
+                Duration : {durationMinutes} min
+              </p>
+            )}
+          </>
         )}
       </div>
-
-      <Button onClick={handleSave}>Save</Button>
     </>
   );
 }
