@@ -1,40 +1,30 @@
-import type { ReactNode } from "react";
+import type { ComponentProps } from "react";
 
-type ButtonVariant = "primary" | "feeding";
+type ButtonVariant = "secondary" | "cancelled";
 
-type Props = {
-  children: ReactNode;
-  onClick: () => void;
+type ButtonProps = {
   variant?: ButtonVariant;
-  fullWidth?: boolean;
-  disabled?: boolean;
-};
+} & ComponentProps<"button">;
 
 const baseStyle =
-  "rounded-lg py-3 font-medium transition-colors disabled:opacity-50";
+  "w-28 rounded-lg py-3 font-medium transition-colors disabled:opacity-50";
 
 const variantStyle: Record<ButtonVariant, string> = {
-  primary: "bg-primary text-bg",
-  feeding: "bg-feeding text-bg",
+  secondary: "bg-secondary text-bg",
+  cancelled: "bg-disabled text-bg",
 };
 
 export default function Button({
-  children,
-  onClick,
-  variant = "primary",
-  fullWidth = true,
-  disabled = false,
-}: Props) {
+  variant = "secondary",
+  className,
+  type = "button",
+  ...props
+}: ButtonProps) {
   return (
     <button
-      onClick={onClick}
-      disabled={disabled}
-      className={`
-    ${baseStyle}
-    ${variantStyle[variant]}
-    ${fullWidth ? "w-full" : ""}`}
-    >
-      {children}
-    </button>
+      type={type}
+      {...props}
+      className={`${baseStyle} ${variantStyle[variant]} ${className ?? ""}`}
+    />
   );
 }

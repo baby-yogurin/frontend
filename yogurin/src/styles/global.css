@@ -6,15 +6,18 @@
   /* Colors */
   --color-bg: #fafafa;
   --color-surface: #ffffff;
-  --color-primary: #7c9cff; /* Yogurin main */
+  --color-primary: #66c7e5; /* Yogurin main */
+  --color-light-primary: #cff4ff;
+  --color-secondary: #faae79;
   --color-text-main: #1f2937;
   --color-text-sub: #6b7280;
+  --color-disabled: #d9d9d9;
   --color-border: #e5e7eb;
 
   /* Status colors */
-  --color-sleep: #a5b4fc;
-  --color-feeding: #fbcfe8;
-  --color-nappy: #fde68a;
+  --color-sleep: #fbcfe8;
+  --color-feeding: #b7f0a0;
+  --color-nappy: #e4c663;
 
   /* Radius */
   --radius-sm: 8px;
