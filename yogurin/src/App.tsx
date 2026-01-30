@@ -1,11 +1,15 @@
+import { RouterProvider } from "react-router-dom";
 import Header from "./components/layout/Header";
+import { router } from "./router/AppRouter";
 
 function App() {
   return (
     <div className="w-full min-h-screen flex justify-center">
       <div className="w-full max-w-[393px] min-h-screen bg-bg shadow-xl relative">
         <Header />
-        <main className="pb-[var(--bottom-nav-height)]"></main>
+        <main className="pb-[var(--bottom-nav-height)]">
+          <RouterProvider router={router} />
+        </main>
       </div>
     </div>
   );
