@@ -4,7 +4,7 @@ export interface Activity {
   id: string;
   type: ActivityType;
   startTime: string;
-  endTime: string;
+  endTime?: string;
   duration?: string;
   memo?: string;
 }

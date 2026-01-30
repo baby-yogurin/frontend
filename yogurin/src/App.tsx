@@ -1,5 +1,3 @@
-import { RouterProvider } from "react-router-dom";
-import { router } from "./router/AppRouter";
 import Header from "./components/layout/Header";
 
 function App() {
@@ -7,9 +5,7 @@ function App() {
     <div className="w-full min-h-screen flex justify-center">
       <div className="w-full max-w-[393px] min-h-screen bg-bg shadow-xl relative">
         <Header />
-        <main className="pb-[var(--bottom-nav-height)]">
-          <RouterProvider router={router} />
-        </main>
+        <main className="pb-[var(--bottom-nav-height)]"></main>
       </div>
     </div>
   );
